@@ -33,7 +33,10 @@ class NotificationManager implements MailManagerInterface
                     $recipients = array_values($event->notifiable->routes);
                 }
             } else {
-                $recipients = [ $event->notifiable->routeNotificationFor('mail') ];
+                $recipients = $event->notifiable->routeNotificationFor('mail');
+                if (!is_array($recipients)) {
+                    $recipients = [$recipients];
+                }
             }
 
             MailManagerMail::create([
